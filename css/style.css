@@ -1,0 +1,127 @@
+body {
+  font-size: 20;
+  background: -webkit-gradient(linear, left top, right top, from(#15570f), color-stop(#0a7926), to(#15570f));
+  background: linear-gradient(90deg, #15570f, #0a7926, #15570f);
+  color: wheat;
+  font-family: "Roboto", "Lucida Sans", "Lucida Sans Regular", "Lucida Grande", "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
+  text-align: center;
+}
+
+.table-game {
+  max-width: 360px;
+  border-radius: 10px;
+  margin: 10px auto;
+  padding: 5px;
+}
+
+@media (max-width: 460px) {
+  .table-game .croupier > .croupier-cards {
+    display: none;
+  }
+}
+
+@media (max-width: 360px) {
+  .table-game .player-cards {
+    display: none;
+  }
+  .table-game .title {
+    display: none;
+  }
+  .table-game #message-el {
+    font-size: 20px;
+  }
+}
+
+.title {
+  font-size: 38px;
+}
+
+.croupier,
+.player {
+  border: 1px solid wheat;
+  margin: 10px;
+  padding: 10px;
+  border-radius: 10px;
+}
+
+.croupier {
+  background: #055315;
+}
+
+.player {
+  background: #6d1010;
+}
+
+h1 {
+  color: wheat;
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+  padding: 5px 0;
+  margin: 0 0 10px 0;
+}
+
+#message-el {
+  font-size: 24px;
+  color: wheat;
+  margin: 0;
+}
+
+.sum {
+  font-size: 36px;
+  font-weight: bold;
+  margin: 5px auto 20px;
+  padding: 10px;
+  border: 1px solid wheat;
+  color: wheat;
+  border-radius: 5px;
+  background: black;
+  max-width: 45px;
+}
+
+button {
+  display: block;
+  margin: 5px auto;
+  width: 120px;
+  padding: 10px;
+  border: none;
+  border: 1px solid wheat;
+  background: transparent;
+  color: wheat;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+button:hover {
+  background: #940222;
+}
+
+button:active {
+  background: #74011a;
+}
+
+#chips-el {
+  padding: 8px;
+  margin: 5px auto;
+  border: 1px solid wheat;
+  border-radius: 5px;
+  width: 100px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+#chips-el:hover {
+  background: #000;
+}
+
+#chips-el:active {
+  background: #333333;
+}
+
+.footer {
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-columns: auto auto;
+      grid-template-columns: auto auto;
+  -ms-grid-rows: row;
+      grid-template-rows: row;
+}

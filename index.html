@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+    <div class="table-game">
+        <h1 class="title">BlackJack</h1>
+
+        <div class="croupier">
+            <div>
+                <p id="message-el"></p>
+                <p id="croupier-el">Карты крупье:</p>
+                <p class="sum" id="croupier-sum-el">0</p>
+            </div>
+            <div class="croupier-cards">
+                <!-- <img src="/img/cards/00.png" alt="" style="margin-right: -45px;">
+                <img src="/img/cards/00.png" alt=""> -->
+                <img src="/img/cards/00.png" alt="">
+                <img src="/img/cards/00.png" alt="">
+                <!-- <img src="/img/cards/00.png" alt=""> -->
+            </div>
+        </div>
+
+        <div class="player">
+            <div class="player-cards">
+                <img src="/img/cards/00.png" alt="" style="margin-right: -80px;">
+                <img src="/img/cards/h/10h.png" alt="" style="margin-right: -80px;">
+                <img src="/img/cards/c/6C.png" alt="" style="margin-right: -80px;">
+                <img src="/img/cards/d/AD.png" alt="" style="margin-right: -80px;">
+                <img src="/img/cards/h/9H.png" alt="" style="margin-right: -80px;">
+                <img src="/img/cards/c/4C.png" alt="" style="margin-right: -80px;">
+                <img src="/img/cards/h/QH.png" alt="" style="margin-right: -80px;">
+                <img src="/img/cards/h/10h.png" alt="">
+            </div>
+            <div>
+                <p id="player-el">Ваши карты:</p>
+                <p class="sum" id="player-sum-el">0</p>
+            </div>
+            <div class="footer">
+                <div>
+                    <button type="button" onclick="startGame()">НОВАЯ ИГРА</button>
+                    <button type="button" onclick="newCard()">ВЗЯТЬ КАРТУ</button>
+                </div>
+                <div>
+                    <button type="button" onclick="pass()">ОТПУСТИТЬ</button>
+                    <p id="chips-el" onclick="resetGame()"></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="./script.js"></script>
+</body>
+
+</html>

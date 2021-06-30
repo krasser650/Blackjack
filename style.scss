@@ -1,0 +1,111 @@
+body {
+    font-size: 20;
+    // background-image: url("/img/black.jpg");
+    // background-size: cover;
+    background: linear-gradient(90deg, #15570f, #0a7926, #15570f);
+    color: wheat;
+    font-family: "Roboto", "Lucida Sans", "Lucida Sans Regular", "Lucida Grande", "Lucida Sans Unicode", Geneva, Verdana,
+        sans-serif;
+    text-align: center;
+}
+.table-game {
+    max-width: 360px;
+    border-radius: 10px;
+    margin: 10px auto;
+    padding: 5px;
+    @media (max-width: 460px) {
+        .croupier > .croupier-cards {
+            display: none;
+        }
+    }
+    @media (max-width: 360px) {
+        .player-cards {
+            display: none;
+        }
+        .title {
+            display: none;
+        }
+        #message-el {
+            font-size: 20px;
+        }
+    }
+}
+.title {
+    font-size: 38px;
+}
+.croupier,
+.player {
+    border: 1px solid wheat;
+    margin: 10px;
+    padding: 10px;
+    border-radius: 10px;
+}
+.croupier {
+    background: rgb(5, 83, 21);
+}
+.player {
+    background: rgb(109, 16, 16);
+}
+h1 {
+    color: wheat;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+    padding: 5px 0;
+    margin: 0 0 10px 0;
+}
+#message-el {
+    font-size: 24px;
+    color: wheat;
+    margin: 0;
+}
+.sum {
+    font-size: 36px;
+    font-weight: bold;
+    margin: 5px auto 20px;
+    padding: 10px;
+    border: 1px solid wheat;
+    color: wheat;
+    border-radius: 5px;
+    background: black;
+    max-width: 45px;
+}
+button {
+    display: block;
+    margin: 5px auto;
+    width: 120px;
+    padding: 10px;
+    border: none;
+    border: 1px solid wheat;
+    background: transparent;
+    color: wheat;
+    // font-weight: bold;
+    cursor: pointer;
+    border-radius: 5px;
+    &:hover {
+        background: rgb(148, 2, 34);
+    }
+    &:active {
+        background: rgb(116, 1, 26);
+    }
+}
+#chips-el {
+    padding: 8px;
+    margin: 5px auto;
+    // background: #000;
+    border: 1px solid wheat;
+    border-radius: 5px;
+    width: 100px;
+    cursor: pointer;
+    font-size: 14px;
+    &:hover {
+        background: #000;
+    }
+    &:active {
+        background: rgb(51, 51, 51);
+    }
+}
+.footer {
+    display: grid;
+    grid-template-columns: auto auto;
+    grid-template-rows: row;
+}
