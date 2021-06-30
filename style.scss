@@ -46,6 +46,10 @@ body {
 .player {
     background: rgb(109, 16, 16);
 }
+.croupier-cards,
+.player-cards {
+    height: 146px;
+}
 h1 {
     color: wheat;
     border-top-left-radius: 8px;
@@ -56,7 +60,7 @@ h1 {
 #message-el {
     font-size: 24px;
     color: wheat;
-    margin: 0;
+    margin: 0 0 15px 0;
 }
 .sum {
     font-size: 36px;

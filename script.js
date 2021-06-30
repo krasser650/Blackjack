@@ -266,30 +266,35 @@ let player = {
     chips: 200
 }
 
+var croupierCards = [],
+    croupierSumEl = document.getElementById("croupier-sum-el"),
+    croupierCardsEl = document.getElementById("croupier-cards-el"),
+    croupierEl = document.getElementById("croupier-el"),
+    croupierSumma = 0,
 
-var playerCards = [],
-    playerSumEl = document.querySelector("#player-sum-el"),
+    playerCards = [],
+    playerSumEl = document.getElementById("player-sum-el"),
+    playerCardsEl = document.getElementById("player-cards-el"),
     playerEl = document.getElementById("player-el"),
     playerSumma = 0,
-
-    croupierCards = [],
-    croupierEl = document.getElementById("croupier-el"),
-    croupierSumEl = document.getElementById("croupier-sum-el"),
-    croupierSumma = 0,
 
     chipsEl = document.getElementById("chips-el"),
     hasBlackjack = false,
     isAlive = false,
     countCards = 0,
-    audio = new Audio('04036.mp3');
+    audio = new Audio('04036.mp3'),
+    audio2 = new Audio('01069.mp3');
 
 message = "Хотите сыграть раунд?",
     messageEl = document.getElementById("message-el");
 
-chipsEl.textContent = player.name + " : $" + player.chips;
 messageEl.textContent = message;
+chipsEl.textContent = player.name + " : $" + player.chips;
 shuffle(cards);
-console.log(cards);
+
+addCardImage(croupierCardsEl, '/img/cards/00.png');
+addCardImage(playerCardsEl, '/img/cards/00.png');
+addCardImage(playerCardsEl, '/img/cards/00.png');
 
 function startGame() {
     if (player.chips < CHIP_VALUE) {
@@ -312,13 +317,20 @@ function startGame() {
     playerSumma = 0;
     croupierSumma = 0;
     pay();
+    resetPlayerResult();
     isAlive = true;
     hasBlackjack = false;
     playerCards = [];
     croupierCards = [];
-    playerCards.push(getRandomCard_2());
-    playerCards.push(getRandomCard_2());
-    croupierCards.push(getRandomCard_2());
+    while (playerCardsEl.firstChild) {
+        playerCardsEl.removeChild(playerCardsEl.firstChild);
+    }
+    while (croupierCardsEl.firstChild) {
+        croupierCardsEl.removeChild(croupierCardsEl.firstChild);
+    }
+    addCard(playerCardsEl, playerCards);
+    addCard(playerCardsEl, playerCards);
+    addCard(croupierCardsEl, croupierCards);
     playerSumma = playerCards.reduce((sum, current) => sum + current.value, 0);
     croupierSumma = croupierCards.reduce((sum, current) => sum + current.value, 0);
     renderGame();
@@ -329,6 +341,7 @@ function renderGame() {
         message = "Вы выиграли!"
         isAlive = false;
         pay();
+        highlightPlayerResult(true);
     } else if (playerSumma <= 20) {
         message = "Хотите взять карту?"
     } else if (playerSumma === 21) {
@@ -336,9 +349,11 @@ function renderGame() {
         hasBlackjack = true;
         isAlive = false;
         pay();
+        highlightPlayerResult(true);
     } else {
         message = "Вы проиграли!"
         isAlive = false;
+        highlightPlayerResult(false);
         console.log(player.chips + " : " + message);
     }
     messageEl.textContent = message;
@@ -354,20 +369,12 @@ function renderGame() {
     playerSumEl.textContent = playerSumma;
 }
 
-function newCard() {
-    if (!isAlive) return;
-    let card = getRandomCard_2();
-    playerCards.push(card);
-    playerSumma = playerCards.reduce((sum, current) => sum + current.value, 0);
-    renderGame();
-}
-
 function pass() {
     if (!isAlive) {
         return;
     }
     while (croupierSumma < playerSumma) {
-        croupierCards.push(getRandomCard_2());
+        addCard(croupierCardsEl, croupierCards);
         croupierSumma = croupierCards.reduce((sum, current) => sum + current.value, 0);
     }
     croupierEl.textContent = "Карты крупье: ";
@@ -378,32 +385,82 @@ function pass() {
     if (croupierSumma > playerSumma && croupierSumma < 22) {
         message = "Вы проиграли!"
         messageEl.textContent = message;
+        highlightPlayerResult(false);
         console.log(player.chips + " : " + message);
     } else if (croupierSumma === playerSumma) {
         message = "Ничья!"
         messageEl.textContent = message;
+        highlightPlayerResult();
     } else {
         message = "Вы выиграли!"
         messageEl.textContent = message;
+        highlightPlayerResult(true);
     }
     isAlive = false;
     pay();
 }
 
-function getRandomCard() {
-    let randomCard = Math.floor(Math.random() * 13) + 1;
-    if (randomCard === 1) {
-        return 11;
-    }
-    return randomCard > 10 ? 10 : randomCard;
+function newCard() {
+    if (!isAlive) return;
+    addCard(playerCardsEl, playerCards);
+    playerSumma = playerCards.reduce((sum, current) => sum + current.value, 0);
+    renderGame();
 }
 
-function getRandomCard_2() {
+function addCard(el, arr) {
+    arr.push(TakeCardFromDeck());
+    const card = arr[arr.length - 1];
+    const imgUrl = createUrlToImage(card);
+    addCardImage(el, imgUrl);
+}
+
+function addCardImage(el, url) {
+    let boxImage = new Image();
+    boxImage.src = url;
+    countChildElements = el.children.length;
+    switch (countChildElements) {
+        case 3:
+            for (let i = 0; i < el.childNodes.length; i++) {
+                el.childNodes[i].style.marginRight = '-35px';
+            }
+            break;
+        case 4:
+            for (let i = 0; i < el.childNodes.length; i++) {
+                el.childNodes[i].style.marginRight = '-51px';
+            }
+            break;
+        case 5:
+            for (let i = 0; i < el.childNodes.length; i++) {
+                el.childNodes[i].style.marginRight = '-62px';
+            }
+            break;
+        case 6:
+            for (let i = 0; i < el.childNodes.length; i++) {
+                el.childNodes[i].style.marginRight = '-68px';
+            }
+            break;
+        case 7:
+            for (let i = 0; i < el.childNodes.length; i++) {
+                el.childNodes[i].style.marginRight = '-73px';
+            }
+            break;
+        default:
+    }
+    el.appendChild(boxImage);
+}
+
+function createUrlToImage(card) {
+    const url = "/img/cards/" + card.suit.toLowerCase() +
+        "/" + card.name + card.suit + ".png";
+    return url;
+}
+
+
+function TakeCardFromDeck() {
     if (cards.length === countCards) {
         shuffle(cards);
         countCards = 0;
     }
-    console.log('count = ' + countCards);
     return cards[countCards++];
 }
 
@@ -430,9 +487,29 @@ function pay() {
     chipsEl.textContent = player.name + " : $" + player.chips;
 }
 
+function highlightPlayerResult(result) {
+    if (result === undefined) {
+        playerSumEl.style.background = '#19679e';
+        croupierSumEl.style.background = '#19679e';
+    } else if (result) {
+        playerSumEl.style.background = 'red';
+    } else {
+        croupierSumEl.style.background = 'red';
+    }
+}
+
+function resetPlayerResult() {
+    if (playerSumEl.style.background !== 'black') {
+        playerSumEl.style.background = 'black'
+    }
+    if (croupierSumEl.style.background !== 'black') {
+        croupierSumEl.style.background = 'black'
+    }
+}
+
 function resetGame() {
     if (player.chips > 0) {
-        audio.play();
+        audio2.play();
         alert("У Вас еще есть фишки. Сумма: $" + player.chips);
         return;
     }
