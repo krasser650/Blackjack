@@ -17,16 +17,24 @@ body {
         .croupier > .croupier-cards {
             display: none;
         }
+        #message-el {
+            font-size: 18px;
+        }
+        .sum {
+            font-size: 30px;
+        }
     }
-    @media (max-width: 360px) {
+    @media (max-width: 380px) {
         .player-cards {
             display: none;
         }
         .title {
             display: none;
         }
-        #message-el {
-            font-size: 20px;
+    }
+    @media (max-width: 318px) {
+        .footer {
+            display: block;
         }
     }
 }
@@ -61,6 +69,9 @@ h1 {
     font-size: 24px;
     color: wheat;
     margin: 0 0 15px 0;
+    padding: 6px 0;
+    border: 1px solid wheat;
+    border-radius: 8px;
 }
 .sum {
     font-size: 36px;
@@ -75,8 +86,8 @@ h1 {
 }
 button {
     display: block;
-    margin: 5px auto;
-    width: 120px;
+    margin: 8px auto;
+    width: 130px;
     padding: 10px;
     border: none;
     border: 1px solid wheat;
@@ -98,7 +109,7 @@ button {
     // background: #000;
     border: 1px solid wheat;
     border-radius: 5px;
-    width: 100px;
+    max-width: 110px;
     cursor: pointer;
     font-size: 14px;
     &:hover {
@@ -109,7 +120,9 @@ button {
     }
 }
 .footer {
-    display: grid;
-    grid-template-columns: auto auto;
-    grid-template-rows: row;
+    display: flex;
+    justify-content: space-around;
+    // grid-template-columns: auto auto;
+    // grid-template-rows: row;
+    flex-flow: row;
 }

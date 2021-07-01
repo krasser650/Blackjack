@@ -18,17 +18,26 @@ body {
   .table-game .croupier > .croupier-cards {
     display: none;
   }
+  .table-game #message-el {
+    font-size: 18px;
+  }
+  .table-game .sum {
+    font-size: 30px;
+  }
 }
 
-@media (max-width: 360px) {
+@media (max-width: 380px) {
   .table-game .player-cards {
     display: none;
   }
   .table-game .title {
     display: none;
   }
-  .table-game #message-el {
-    font-size: 20px;
+}
+
+@media (max-width: 318px) {
+  .table-game .footer {
+    display: block;
   }
 }
 
@@ -69,6 +78,9 @@ h1 {
   font-size: 24px;
   color: wheat;
   margin: 0 0 15px 0;
+  padding: 6px 0;
+  border: 1px solid wheat;
+  border-radius: 8px;
 }
 
 .sum {
@@ -85,8 +97,8 @@ h1 {
 
 button {
   display: block;
-  margin: 5px auto;
-  width: 120px;
+  margin: 8px auto;
+  width: 130px;
   padding: 10px;
   border: none;
   border: 1px solid wheat;
@@ -109,7 +121,7 @@ button:active {
   margin: 5px auto;
   border: 1px solid wheat;
   border-radius: 5px;
-  width: 100px;
+  max-width: 110px;
   cursor: pointer;
   font-size: 14px;
 }
@@ -123,10 +135,13 @@ button:active {
 }
 
 .footer {
-  display: -ms-grid;
-  display: grid;
-  -ms-grid-columns: auto auto;
-      grid-template-columns: auto auto;
-  -ms-grid-rows: row;
-      grid-template-rows: row;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-pack: distribute;
+      justify-content: space-around;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-flow: row;
+          flex-flow: row;
 }
