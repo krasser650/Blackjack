@@ -7,16 +7,25 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="./css/style.css">
+    <link rel="shortcut icon" href="#" />
 </head>
 
 <body>
+    <div class="log" id="log-el">
+        <div class="log__header">
+            <a class="log__btn-close" onclick="closeLog()">&times;</a>
+            <img class="log__btn-delete" src="./img/icon_Delete.png" alt="" onclick="deleteLog()">
+            <p class="log__title">Журнал</p>
+        </div>
+        <div class="log__body" id="log-body-el"></div>
+    </div>
     <div class="table-game">
-        <h1 class="title">BlackJack</h1>
-
+        <img class="menu" src="./img/btn_menu.png" alt="" onclick="openLog()">
+        <h1 class=" title">BlackJack</h1>
         <div class="croupier">
-            <div>
+            <div style="position: relative">
                 <p id="croupier-el">Карты крупье:</p>
-                <p class="sum" id="croupier-sum-el">0</p>
+                <p class="croupier-sum" id="croupier-sum-el">0</p>
             </div>
             <div class="croupier-cards" id="croupier-cards-el"></div>
         </div>
@@ -24,17 +33,28 @@
         <div class="player">
             <div id="message-el"></div>
             <div class="player-cards" id="player-cards-el"></div>
-            <div>
+            <div style="position: relative">
                 <p id="player-el">Ваши карты:</p>
-                <p class="sum" id="player-sum-el">0</p>
+                <p class="player-sum" id="player-sum-el">0</p>
             </div>
-            <div class="footer">
+            <div class="radio-btn-panel">
+                <p style="margin-bottom: 5px;">Cтавка :</p>
+                <input type="radio" id="chip1" name="chip" checked=true value="1" onchange="setRate(this)">
+                <label for="chip1">$20</label>
+                <input type="radio" id="chip2" name="chip" value="2" onchange="setRate(this)">
+                <label for="chip2">$40</label>
+                <input type="radio" id="chi4" name="chip" value="3" onchange="setRate(this)">
+                <label for="chip4">$60</label>
+                <input type="radio" id="chip3" name="chip" value="5" onchange="setRate(this)">
+                <label for="chip3">$100</label>
+            </div>
+            <div class="btn-panel">
                 <div>
-                    <button type="button" onclick="startGame()">НОВАЯ ИГРА</button>
+                    <button type="button" onclick="startGame()">ИГРАТЬ РАУНД</button>
                     <button type="button" onclick="newCard()">ВЗЯТЬ КАРТУ</button>
                 </div>
                 <div>
-                    <button type="button" onclick="pass()">ПАС</button>
+                    <button type="button" onclick="pass()">ХВАТИТ</button>
                     <p id="chips-el" onclick="rebootGame()"></p>
                 </div>
             </div>

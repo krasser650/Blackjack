@@ -8,39 +8,53 @@ body {
         sans-serif;
     text-align: center;
 }
+
 .table-game {
     max-width: 360px;
     border-radius: 10px;
     margin: 10px auto;
     padding: 5px;
     @media (max-width: 460px) {
-        .croupier > .croupier-cards {
-            display: none;
-        }
         #message-el {
             font-size: 18px;
         }
-        .sum {
-            font-size: 30px;
+        .title {
+            font-size: 28px;
         }
     }
     @media (max-width: 380px) {
-        .player-cards {
+        #croupier-el {
+            margin: 5px;
+        }
+        .croupier-cards,
+        .croupier-sum {
             display: none;
         }
         .title {
             display: none;
         }
+        .menu {
+            top: 5px;
+        }
     }
     @media (max-width: 318px) {
-        .footer {
+        .btn-panel {
             display: block;
         }
     }
 }
+
+.menu {
+    position: absolute;
+    left: 20px;
+    top: 20px;
+    cursor: pointer;
+}
+
 .title {
     font-size: 38px;
 }
+
 .croupier,
 .player {
     border: 1px solid wheat;
@@ -48,16 +62,20 @@ body {
     padding: 10px;
     border-radius: 10px;
 }
+
 .croupier {
     background: rgb(5, 83, 21);
 }
+
 .player {
     background: rgb(109, 16, 16);
 }
+
 .croupier-cards,
 .player-cards {
     height: 146px;
 }
+
 h1 {
     color: wheat;
     border-top-left-radius: 8px;
@@ -73,17 +91,45 @@ h1 {
     border: 1px solid wheat;
     border-radius: 8px;
 }
-.sum {
+
+.player-sum,
+.croupier-sum {
     font-size: 36px;
     font-weight: bold;
     margin: 5px auto 20px;
     padding: 10px;
     border: 1px solid wheat;
     color: wheat;
-    border-radius: 5px;
+    border-radius: 8px;
     background: black;
-    max-width: 45px;
+
+    position: absolute;
+    left: 40%;
+    z-index: 2;
+    height: 45px;
+    width: 45px;
+    box-shadow: 0 0 20px rgba(0, 0, 2, 0.8);
 }
+
+.player-sum {
+    top: -130px;
+}
+
+.croupier-sum {
+    top: 70px;
+}
+
+.btn-panel {
+    display: flex;
+    justify-content: space-around;
+    flex-flow: row;
+}
+
+.radio-btn-panel {
+    margin: 5px auto;
+    max-width: 290px;
+}
+
 button {
     display: block;
     margin: 8px auto;
@@ -103,6 +149,7 @@ button {
         background: rgb(116, 1, 26);
     }
 }
+
 #chips-el {
     padding: 8px;
     margin: 5px auto;
@@ -119,10 +166,101 @@ button {
         background: rgb(51, 51, 51);
     }
 }
-.footer {
+
+input {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+
+    border-radius: 50%;
+    width: 13px;
+    height: 13px;
+
+    border: 2px solid #999;
+    transition: 0.2s all linear;
+}
+
+input:checked {
+    border: 3px solid rgb(29, 202, 6);
+}
+
+.image-card {
+    animation-duration: 0.5s;
+    animation-name: imgStart;
+}
+
+@keyframes imgStart {
+    from {
+        filter: opacity(0%) blur(10px);
+    }
+
+    to {
+        filter: opacity(100%) blur(0px);
+    }
+}
+
+.log {
     display: flex;
-    justify-content: space-around;
-    // grid-template-columns: auto auto;
-    // grid-template-rows: row;
-    flex-flow: row;
+    flex-flow: column;
+    position: absolute;
+    width: 300px;
+    height: 100%;
+    left: 0;
+    top: 0;
+    background: rgb(218, 218, 218);
+    box-shadow: 0 0 10px rgba(0, 0, 2, 0.5);
+    z-index: 3;
+    transition: 0.5s;
+}
+
+.log__header {
+    margin-top: 0px;
+    background: rgb(0, 85, 14);
+    height: 45px;
+}
+
+.log__header .log__title {
+    font-size: 16px;
+    margin-top: 0;
+    margin-bottom: 0;
+    padding: 10px 0;
+}
+
+.log__header .log__btn-close {
+    position: absolute;
+    right: 15px;
+    font-size: 30px;
+    cursor: pointer;
+    z-index: 3;
+}
+
+.log__header .log__btn-delete {
+    position: absolute;
+    top: 9px;
+    left: 15px;
+    cursor: pointer;
+    z-index: 3;
+}
+
+.log .log__body {
+    overflow: auto;
+}
+
+.log__record {
+    text-align: left;
+    margin: 5px 0 5px 20px;
+    font-size: 12px;
+    color: rgb(34, 30, 30);
+    animation-duration: 0.5s;
+    animation-name: recordStart;
+}
+
+@keyframes recordStart {
+    from {
+        margin-left: -300px;
+    }
+
+    to {
+        margin-left: 20px;
+    }
 }

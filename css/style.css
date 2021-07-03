@@ -15,30 +15,41 @@ body {
 }
 
 @media (max-width: 460px) {
-  .table-game .croupier > .croupier-cards {
-    display: none;
-  }
   .table-game #message-el {
     font-size: 18px;
   }
-  .table-game .sum {
-    font-size: 30px;
+  .table-game .title {
+    font-size: 28px;
   }
 }
 
 @media (max-width: 380px) {
-  .table-game .player-cards {
+  .table-game #croupier-el {
+    margin: 5px;
+  }
+  .table-game .croupier-cards,
+  .table-game .croupier-sum {
     display: none;
   }
   .table-game .title {
     display: none;
   }
+  .table-game .menu {
+    top: 5px;
+  }
 }
 
 @media (max-width: 318px) {
-  .table-game .footer {
+  .table-game .btn-panel {
     display: block;
   }
+}
+
+.menu {
+  position: absolute;
+  left: 20px;
+  top: 20px;
+  cursor: pointer;
 }
 
 .title {
@@ -83,16 +94,48 @@ h1 {
   border-radius: 8px;
 }
 
-.sum {
+.player-sum,
+.croupier-sum {
   font-size: 36px;
   font-weight: bold;
   margin: 5px auto 20px;
   padding: 10px;
   border: 1px solid wheat;
   color: wheat;
-  border-radius: 5px;
+  border-radius: 8px;
   background: black;
-  max-width: 45px;
+  position: absolute;
+  left: 40%;
+  z-index: 2;
+  height: 45px;
+  width: 45px;
+  -webkit-box-shadow: 0 0 20px rgba(0, 0, 2, 0.8);
+          box-shadow: 0 0 20px rgba(0, 0, 2, 0.8);
+}
+
+.player-sum {
+  top: -130px;
+}
+
+.croupier-sum {
+  top: 70px;
+}
+
+.btn-panel {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-pack: distribute;
+      justify-content: space-around;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-flow: row;
+          flex-flow: row;
+}
+
+.radio-btn-panel {
+  margin: 5px auto;
+  max-width: 290px;
 }
 
 button {
@@ -134,14 +177,130 @@ button:active {
   background: #333333;
 }
 
-.footer {
+input {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  border-radius: 50%;
+  width: 13px;
+  height: 13px;
+  border: 2px solid #999;
+  -webkit-transition: 0.2s all linear;
+  transition: 0.2s all linear;
+}
+
+input:checked {
+  border: 3px solid #1dca06;
+}
+
+.image-card {
+  -webkit-animation-duration: 0.5s;
+          animation-duration: 0.5s;
+  -webkit-animation-name: imgStart;
+          animation-name: imgStart;
+}
+
+@-webkit-keyframes imgStart {
+  from {
+    -webkit-filter: opacity(0%) blur(10px);
+            filter: opacity(0%) blur(10px);
+  }
+  to {
+    -webkit-filter: opacity(100%) blur(0px);
+            filter: opacity(100%) blur(0px);
+  }
+}
+
+@keyframes imgStart {
+  from {
+    -webkit-filter: opacity(0%) blur(10px);
+            filter: opacity(0%) blur(10px);
+  }
+  to {
+    -webkit-filter: opacity(100%) blur(0px);
+            filter: opacity(100%) blur(0px);
+  }
+}
+
+.log {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
-  -ms-flex-pack: distribute;
-      justify-content: space-around;
-  -webkit-box-orient: horizontal;
+  -webkit-box-orient: vertical;
   -webkit-box-direction: normal;
-      -ms-flex-flow: row;
-          flex-flow: row;
+      -ms-flex-flow: column;
+          flex-flow: column;
+  position: absolute;
+  width: 300px;
+  height: 100%;
+  left: 0;
+  top: 0;
+  background: #dadada;
+  -webkit-box-shadow: 0 0 10px rgba(0, 0, 2, 0.5);
+          box-shadow: 0 0 10px rgba(0, 0, 2, 0.5);
+  z-index: 3;
+  -webkit-transition: 0.5s;
+  transition: 0.5s;
+}
+
+.log__header {
+  margin-top: 0px;
+  background: #00550e;
+  height: 45px;
+}
+
+.log__header .log__title {
+  font-size: 16px;
+  margin-top: 0;
+  margin-bottom: 0;
+  padding: 10px 0;
+}
+
+.log__header .log__btn-close {
+  position: absolute;
+  right: 15px;
+  font-size: 30px;
+  cursor: pointer;
+  z-index: 3;
+}
+
+.log__header .log__btn-delete {
+  position: absolute;
+  top: 9px;
+  left: 15px;
+  cursor: pointer;
+  z-index: 3;
+}
+
+.log .log__body {
+  overflow: auto;
+}
+
+.log__record {
+  text-align: left;
+  margin: 5px 0 5px 20px;
+  font-size: 12px;
+  color: #221e1e;
+  -webkit-animation-duration: 0.5s;
+          animation-duration: 0.5s;
+  -webkit-animation-name: recordStart;
+          animation-name: recordStart;
+}
+
+@-webkit-keyframes recordStart {
+  from {
+    margin-left: -300px;
+  }
+  to {
+    margin-left: 20px;
+  }
+}
+
+@keyframes recordStart {
+  from {
+    margin-left: -300px;
+  }
+  to {
+    margin-left: 20px;
+  }
 }

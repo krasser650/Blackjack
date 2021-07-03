@@ -260,7 +260,8 @@ let cards = [{
     }
 ];
 
-const CHIP_VALUE = 40;
+const CHIP_VALUE = 20;
+const REPLENISHMENT_AMOUNT = 200;
 let player = {
     name: "ФИШКИ",
     chips: 200
@@ -282,17 +283,32 @@ var croupierCards = [],
     hasBlackjack = false,
     isAlive = false,
     countCards = 0,
+    rate = 1,
+    gameBet = CHIP_VALUE * rate,
     audio = new Audio('04036.mp3'),
     audio2 = new Audio('01069.mp3'),
 
     message = "Хотите сыграть раунд?",
-    messageEl = document.getElementById("message-el");
+    messageEl = document.getElementById("message-el"),
+    logEl = document.getElementById("log-el"),
+    logBodyEl = document.getElementById("log-body-el");
 
 messageEl.textContent = message;
 chipsEl.textContent = player.name + " : $" + player.chips;
 shuffle(cards);
 flipCards();
+let record = player.chips + " : Новая игра";
+console.log(record);
+addLog(record);
 
+function addLog(str) {
+    const l = document.createElement('hr');
+    logBodyEl.prepend(l);
+    let p = document.createElement('p');
+    p.classList.add('log__record');
+    p.textContent = str;
+    logBodyEl.prepend(p);
+}
 
 function flipCards() {
     addCardImage(croupierCardsEl, './img/cards/00.png');
@@ -302,21 +318,28 @@ function flipCards() {
 }
 
 function setStartUpSettings() {
-    if (player.chips < CHIP_VALUE) {
+    let resetSet = true;
+    if (isAlive) {
+        audio.play();
+        resetSet = confirm("Хотите начать новый раунд?" + "\n" +
+            "Возвращается только половина Вашей ставки, то есть  $" + gameBet / 2 + "." + "\n" +
+            "Согласны?");
+        if (!resetSet) {
+            return false;
+        }
+        player.chips = player.chips + (gameBet / 2);
+        message = "Возврат половины ставки - " + gameBet / 2;
+        record = player.chips + " : " + message;
+        console.log(record);
+        addLog(record);
+        chipsEl.textContent = player.name + " : $" + player.chips;
+    }
+    if (player.chips < gameBet) {
         audio.play();
         message = "Недостаточно фишек!"
         messageEl.textContent = message;
         isAlive = false;
         return false;
-    }
-    let resetSet = true;
-    if (isAlive) {
-        audio.play();
-        resetSet = confirm("Хотите начать новый раунд?" + "\n" +
-            "Сделанная вами ставка в размере $" + CHIP_VALUE + " не возвращается!");
-        if (!resetSet) {
-            return false;
-        }
     }
     playerSumma = 0;
     croupierSumma = 0;
@@ -356,7 +379,11 @@ function renderGame() {
     } else if (playerSumma <= 20) {
         message = "Хотите взять карту?"
     } else if (playerSumma === 21) {
-        message = "У Вас  BlackJack!"
+        if (playerCards.length === 2) {
+            message = "У Вас  BlackJack!"
+        } else {
+            message = "Двадцать одно!"
+        }
         hasBlackjack = true;
         isAlive = false;
         pay();
@@ -365,7 +392,9 @@ function renderGame() {
         message = "Вы проиграли!"
         isAlive = false;
         highlightPlayerResult(false);
-        console.log(player.chips + " : " + message);
+        record = player.chips + " : " + message + " Счет " + playerSumma + ":" + croupierSumma;
+        console.log(record);
+        addLog(record);
     }
     messageEl.textContent = message;
     playerEl.textContent = "Ваши карты: ";
@@ -398,7 +427,9 @@ function pass() {
         message = "Вы проиграли!"
         messageEl.textContent = message;
         highlightPlayerResult(false);
-        console.log(player.chips + " : " + message);
+        record = player.chips + " : " + message + " Счет - " + playerSumma + ":" + croupierSumma;
+        // console.log(record);
+        // addLog(record);
     } else if (croupierSumma === playerSumma) {
         message = "Ничья!"
         messageEl.textContent = message;
@@ -431,30 +462,42 @@ function addCard(el, arr) {
 function addCardImage(el, url) {
     let boxImage = new Image();
     boxImage.src = url;
+    boxImage.className = 'image-card';
     switch (el.children.length) {
+        case 2:
+            for (let node of el.childNodes) {
+                // node.style.marginRight = '-35px';
+                node.setAttribute('style', 'margin-right: -35px');
+            }
+            break;
         case 3:
             for (let node of el.childNodes) {
-                node.style.marginRight = '-35px';
+                // node.style.marginRight = '-55px';
+                node.setAttribute('style', 'margin-right: -55px');
             }
             break;
         case 4:
             for (let node of el.childNodes) {
-                node.style.marginRight = '-51px';
+                // node.style.marginRight = '-70px';
+                node.setAttribute('style', 'margin-right: -70px');
             }
             break;
         case 5:
             for (let node of el.childNodes) {
-                node.style.marginRight = '-62px';
+                // node.style.marginRight = '-75px';
+                node.setAttribute('style', 'margin-right: -75px');
             }
             break;
         case 6:
             for (let node of el.childNodes) {
-                node.style.marginRight = '-68px';
+                // node.style.marginRight = '-80px';
+                node.setAttribute('style', 'margin-right: -80px');
             }
             break;
         case 7:
             for (let node of el.childNodes) {
-                node.style.marginRight = '-73px';
+                // node.style.marginRight = '-85px';
+                node.setAttribute('style', 'margin-right: -85px');
             }
             break;
         default:
@@ -485,18 +528,32 @@ function pay() {
         return;
     }
     if (croupierSumma === 0) {
-        player.chips = player.chips - CHIP_VALUE;
-        console.log("Начал раунд, ставка - $" + CHIP_VALUE);
+        player.chips = player.chips - gameBet;
+        record = "Начал раунд. Cтавка - " + gameBet;
+        // console.log(record);
+        // addLog(record);
     } else if (croupierSumma > 21 || (croupierSumma < playerSumma && playerSumma < 21)) {
-        player.chips = player.chips + (CHIP_VALUE * 2);
-        console.log(player.chips + " : " + message);
+        player.chips = player.chips + (gameBet * 2);
+        record = player.chips + " : " + message + " Счет - " + playerSumma + ":" + croupierSumma;
+        // console.log(record);
+        // addLog(record);
     } else if (croupierSumma === playerSumma) {
-        player.chips = player.chips + CHIP_VALUE;
-        console.log(player.chips + " : " + message);
+        player.chips = player.chips + gameBet;
+        record = player.chips + " : " + message + " Счет - " + playerSumma + ":" + croupierSumma
+        // console.log(record);
+        // addLog(record);
     } else if (playerSumma === 21) {
-        player.chips = player.chips + (CHIP_VALUE * 3);
-        console.log(player.chips + " : " + message);
+        if (playerCards.length === 2) {
+            player.chips = player.chips + (gameBet * 2) + (gameBet * 0.5);
+        } else {
+            player.chips = player.chips + (gameBet * 2);
+        }
+        record = player.chips + " : " + message + " Счет - " + playerSumma + ":" + croupierSumma;
+        // console.log(record);
+        // addLog(record);
     }
+    console.log(record);
+    addLog(record);
     chipsEl.textContent = player.name + " : $" + player.chips;
 }
 
@@ -527,14 +584,14 @@ function setStyleDefaultGame() {
 }
 
 function rebootGame() {
-    let result = true;
+    if (isAlive) return;
     if (player.chips > 0) {
         audio2.play();
-        result = confirm("У Вас еще есть фишки, cумма: $" + player.chips + "\n" +
-            "Xотите начать заново?");
-    }
-    if (!result) {
-        return;
+        const result = confirm("Стоимость Ваших фишек составляет $" + player.chips + "\n" +
+            "Хотите пополнить еще на $" + REPLENISHMENT_AMOUNT + "?");
+        if (!result) {
+            return;
+        }
     }
     message = "Хотите сыграть раунд?"
     messageEl.textContent = message;
@@ -547,7 +604,10 @@ function rebootGame() {
     playerSumEl.textContent = playerSumma;
     hasBlackjack = false;
     isAlive = false;
-    player.chips = 200;
+    player.chips += REPLENISHMENT_AMOUNT;
+    record = player.chips + " : Пополнение фишек. Сумма - " + REPLENISHMENT_AMOUNT;
+    console.log(record);
+    addLog(record);
     chipsEl.textContent = player.name + " : $" + player.chips;
     while (playerCardsEl.firstChild) {
         playerCardsEl.removeChild(playerCardsEl.firstChild);
@@ -562,5 +622,25 @@ function shuffle(array) {
     for (let i = array.length - 1; i > 0; i--) {
         let j = Math.floor(Math.random() * (i + 1));
         [array[i], array[j]] = [array[j], array[i]];
+    }
+}
+
+function setRate(src) {
+    rate = src.value;
+    gameBet = CHIP_VALUE * rate;
+}
+
+function openLog() {
+    logEl.setAttribute('style', 'margin-left: 0px');
+}
+
+function closeLog() {
+    logEl.setAttribute('style', 'margin-left: -300px');
+    console.log(logEl);
+}
+
+function deleteLog() {
+    while (logBodyEl.firstChild) {
+        logBodyEl.removeChild(logBodyEl.firstChild);
     }
 }
