@@ -19,8 +19,9 @@
         </div>
         <div class="log__body" id="log-body-el"></div>
     </div>
+    <img class="menu" src="./img/btn_menu.png" alt="" onclick="openLog()">
     <div class="table-game">
-        <img class="menu" src="./img/btn_menu.png" alt="" onclick="openLog()">
+
         <h1 class=" title">BlackJack</h1>
         <div class="croupier">
             <div style="position: relative">
@@ -31,26 +32,29 @@
         </div>
 
         <div class="player">
-            <div id="message-el"></div>
-            <div class="player-cards" id="player-cards-el"></div>
+
             <div style="position: relative">
-                <p id="player-el">Ваши карты:</p>
                 <p class="player-sum" id="player-sum-el">0</p>
+                <p id="player-el">Ваши карты:</p>
             </div>
+            <div class="player-cards" id="player-cards-el"></div>
+
+            <div id="message-el"></div>
+
             <div class="radio-btn-panel">
                 <p style="margin-bottom: 5px;">Cтавка :</p>
                 <input type="radio" id="chip1" name="chip" checked=true value="1" onchange="setRate(this)">
                 <label for="chip1">$20</label>
                 <input type="radio" id="chip2" name="chip" value="2" onchange="setRate(this)">
                 <label for="chip2">$40</label>
-                <input type="radio" id="chi4" name="chip" value="3" onchange="setRate(this)">
+                <input type="radio" id="chi3" name="chip" value="3" onchange="setRate(this)">
                 <label for="chip4">$60</label>
-                <input type="radio" id="chip3" name="chip" value="5" onchange="setRate(this)">
+                <input type="radio" id="chip4" name="chip" value="5" onchange="setRate(this)">
                 <label for="chip3">$100</label>
             </div>
             <div class="btn-panel">
                 <div>
-                    <button type="button" onclick="startGame()">ИГРАТЬ РАУНД</button>
+                    <button type="button" id="btn-start -el" onclick="startGame()">ИГРАТЬ</button>
                     <button type="button" onclick="newCard()">ВЗЯТЬ КАРТУ</button>
                 </div>
                 <div>

@@ -4,8 +4,8 @@ body {
     // background-size: cover;
     background: linear-gradient(90deg, #15570f, #0a7926, #15570f);
     color: wheat;
-    font-family: "Roboto", "Lucida Sans", "Lucida Sans Regular", "Lucida Grande", "Lucida Sans Unicode", Geneva, Verdana,
-        sans-serif;
+    font-family: "Roboto", "Lucida Sans", "Lucida Sans Regular", "Lucida Grande", "Lucida Sans Unicode", "Geneva",
+        "Verdana", sans-serif;
     text-align: center;
 }
 
@@ -14,6 +14,18 @@ body {
     border-radius: 10px;
     margin: 10px auto;
     padding: 5px;
+    @media (max-height: 770px) and (min-width: 470px) {
+        .title {
+            display: none;
+        }
+        display: flex;
+        flex-flow: row;
+        justify-content: center;
+        .croupier,
+        .player {
+            min-width: 330px;
+        }
+    }
     @media (max-width: 460px) {
         #message-el {
             font-size: 18px;
@@ -22,7 +34,7 @@ body {
             font-size: 28px;
         }
     }
-    @media (max-width: 380px) {
+    @media (max-width: 335px) {
         #croupier-el {
             margin: 5px;
         }
@@ -32,9 +44,6 @@ body {
         }
         .title {
             display: none;
-        }
-        .menu {
-            top: 5px;
         }
     }
     @media (max-width: 318px) {
@@ -46,8 +55,8 @@ body {
 
 .menu {
     position: absolute;
-    left: 20px;
-    top: 20px;
+    left: 15px;
+    top: 10px;
     cursor: pointer;
 }
 
@@ -73,6 +82,10 @@ body {
 
 .croupier-cards,
 .player-cards {
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: center;
+    align-items: center;
     height: 146px;
 }
 
@@ -86,7 +99,7 @@ h1 {
 #message-el {
     font-size: 24px;
     color: wheat;
-    margin: 0 0 15px 0;
+    margin: 10px 15px 10px 15px;
     padding: 6px 0;
     border: 1px solid wheat;
     border-radius: 8px;
@@ -111,10 +124,7 @@ h1 {
     box-shadow: 0 0 20px rgba(0, 0, 2, 0.8);
 }
 
-.player-sum {
-    top: -130px;
-}
-
+.player-sum,
 .croupier-sum {
     top: 70px;
 }
@@ -153,7 +163,6 @@ button {
 #chips-el {
     padding: 8px;
     margin: 5px auto;
-    // background: #000;
     border: 1px solid wheat;
     border-radius: 5px;
     max-width: 110px;
@@ -185,17 +194,19 @@ input:checked {
 }
 
 .image-card {
-    animation-duration: 0.5s;
+    animation-duration: 0.3s;
     animation-name: imgStart;
 }
 
 @keyframes imgStart {
     from {
-        filter: opacity(0%) blur(10px);
+        filter: opacity(0%);
+        transform: rotate(25deg) scale(30%);
     }
 
     to {
-        filter: opacity(100%) blur(0px);
+        filter: opacity(100%);
+        transform: rotate(0deg) scale(100%);
     }
 }
 
@@ -203,6 +214,7 @@ input:checked {
     display: flex;
     flex-flow: column;
     position: absolute;
+    margin-left: -300px;
     width: 300px;
     height: 100%;
     left: 0;

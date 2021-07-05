@@ -3,7 +3,7 @@ body {
   background: -webkit-gradient(linear, left top, right top, from(#15570f), color-stop(#0a7926), to(#15570f));
   background: linear-gradient(90deg, #15570f, #0a7926, #15570f);
   color: wheat;
-  font-family: "Roboto", "Lucida Sans", "Lucida Sans Regular", "Lucida Grande", "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
+  font-family: "Roboto", "Lucida Sans", "Lucida Sans Regular", "Lucida Grande", "Lucida Sans Unicode", "Geneva", "Verdana", sans-serif;
   text-align: center;
 }
 
@@ -12,6 +12,28 @@ body {
   border-radius: 10px;
   margin: 10px auto;
   padding: 5px;
+}
+
+@media (max-height: 770px) and (min-width: 470px) {
+  .table-game {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: horizontal;
+    -webkit-box-direction: normal;
+        -ms-flex-flow: row;
+            flex-flow: row;
+    -webkit-box-pack: center;
+        -ms-flex-pack: center;
+            justify-content: center;
+  }
+  .table-game .title {
+    display: none;
+  }
+  .table-game .croupier,
+  .table-game .player {
+    min-width: 330px;
+  }
 }
 
 @media (max-width: 460px) {
@@ -23,7 +45,7 @@ body {
   }
 }
 
-@media (max-width: 380px) {
+@media (max-width: 335px) {
   .table-game #croupier-el {
     margin: 5px;
   }
@@ -33,9 +55,6 @@ body {
   }
   .table-game .title {
     display: none;
-  }
-  .table-game .menu {
-    top: 5px;
   }
 }
 
@@ -47,8 +66,8 @@ body {
 
 .menu {
   position: absolute;
-  left: 20px;
-  top: 20px;
+  left: 15px;
+  top: 10px;
   cursor: pointer;
 }
 
@@ -74,6 +93,19 @@ body {
 
 .croupier-cards,
 .player-cards {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-flow: row nowrap;
+          flex-flow: row nowrap;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
   height: 146px;
 }
 
@@ -88,7 +120,7 @@ h1 {
 #message-el {
   font-size: 24px;
   color: wheat;
-  margin: 0 0 15px 0;
+  margin: 10px 15px 10px 15px;
   padding: 6px 0;
   border: 1px solid wheat;
   border-radius: 8px;
@@ -113,10 +145,7 @@ h1 {
           box-shadow: 0 0 20px rgba(0, 0, 2, 0.8);
 }
 
-.player-sum {
-  top: -130px;
-}
-
+.player-sum,
 .croupier-sum {
   top: 70px;
 }
@@ -194,31 +223,39 @@ input:checked {
 }
 
 .image-card {
-  -webkit-animation-duration: 0.5s;
-          animation-duration: 0.5s;
+  -webkit-animation-duration: 0.3s;
+          animation-duration: 0.3s;
   -webkit-animation-name: imgStart;
           animation-name: imgStart;
 }
 
 @-webkit-keyframes imgStart {
   from {
-    -webkit-filter: opacity(0%) blur(10px);
-            filter: opacity(0%) blur(10px);
+    -webkit-filter: opacity(0%);
+            filter: opacity(0%);
+    -webkit-transform: rotate(25deg) scale(30%);
+            transform: rotate(25deg) scale(30%);
   }
   to {
-    -webkit-filter: opacity(100%) blur(0px);
-            filter: opacity(100%) blur(0px);
+    -webkit-filter: opacity(100%);
+            filter: opacity(100%);
+    -webkit-transform: rotate(0deg) scale(100%);
+            transform: rotate(0deg) scale(100%);
   }
 }
 
 @keyframes imgStart {
   from {
-    -webkit-filter: opacity(0%) blur(10px);
-            filter: opacity(0%) blur(10px);
+    -webkit-filter: opacity(0%);
+            filter: opacity(0%);
+    -webkit-transform: rotate(25deg) scale(30%);
+            transform: rotate(25deg) scale(30%);
   }
   to {
-    -webkit-filter: opacity(100%) blur(0px);
-            filter: opacity(100%) blur(0px);
+    -webkit-filter: opacity(100%);
+            filter: opacity(100%);
+    -webkit-transform: rotate(0deg) scale(100%);
+            transform: rotate(0deg) scale(100%);
   }
 }
 
@@ -231,6 +268,7 @@ input:checked {
       -ms-flex-flow: column;
           flex-flow: column;
   position: absolute;
+  margin-left: -300px;
   width: 300px;
   height: 100%;
   left: 0;
