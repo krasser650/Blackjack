@@ -288,12 +288,22 @@ var croupierCards = [],
     record = player.chips + " : Новая игра",
     audio = new Audio('04036.mp3'),
     audio2 = new Audio('01069.mp3'),
+    audio3 = new Audio('011.mp3'),
+    audio4 = new Audio('012.mp3'),
+    audio5 = new Audio('013.mp3')
 
-    message = "Хотите сыграть раунд?",
+message = "Хотите сыграть раунд?",
     messageEl = document.getElementById("message-el"),
     logEl = document.getElementById("log-el"),
-    logBodyEl = document.getElementById("log-body-el");
+    logBodyEl = document.getElementById("log-body-el"),
 
+    btnPlay = document.getElementById("btn-start-el"),
+    btnNew = document.getElementById("btn-new-el"),
+    btnPass = document.getElementById("btn-cancel-el"),
+    bodyEl = document.getElementById("body-el");
+
+
+bodyEl.setAttribute('style', 'background-image: url(./img/bg.jpg)');
 messageEl.textContent = message;
 chipsEl.textContent = player.name + " : $" + player.chips;
 shuffle(cards);
@@ -302,12 +312,12 @@ console.log(record);
 addLog(record);
 
 function addLog(str) {
-    const l = document.createElement('hr');
-    logBodyEl.prepend(l);
-    let p = document.createElement('p');
-    p.classList.add('log__record');
-    p.textContent = str;
-    logBodyEl.prepend(p);
+    const line = document.createElement('hr');
+    logBodyEl.prepend(line);
+    let log = document.createElement('p');
+    log.classList.add('log__record');
+    log.textContent = str;
+    logBodyEl.prepend(log);
 }
 
 function flipCards() {
@@ -331,10 +341,10 @@ function setStartUpSettings() {
             player.chips = player.chips - (gameBet / 2);
             message = "Возврат половины ставки - " + gameBet / 2;
             record = player.chips + " : " + message;
+            chipsEl.textContent = player.name + " : $" + player.chips;
+            setSettingDefault();
             console.log(record);
             addLog(record);
-            setSettingDefault();
-            chipsEl.textContent = player.name + " : $" + player.chips;
         }
         return false;
     }
@@ -346,19 +356,7 @@ function setStartUpSettings() {
         return false;
     }
     isAlive = true;
-    hasBlackjack = false;
-    disabledChecked();
-    setStyleDefaultGame();
-    playerSumma = 0;
-    croupierSumma = 0;
-    playerCards = [];
-    croupierCards = [];
-    while (playerCardsEl.firstChild) {
-        playerCardsEl.removeChild(playerCardsEl.firstChild);
-    }
-    while (croupierCardsEl.firstChild) {
-        croupierCardsEl.removeChild(croupierCardsEl.firstChild);
-    }
+    setInitialGameDataToDefault();
     pay();
     return true;
 }
@@ -376,38 +374,24 @@ function startGame() {
 }
 
 function renderGame() {
+    audio4.play();
     if (playerSumma > 21) {
-        message = "Проиргыш!"
-        isAlive = false;
-        highlightPlayerResult(false);
-        pay();
+        pass();
     } else if (playerSumma <= 20) {
         message = "Хотите взять карту?"
     } else if (playerSumma === 21) {
         if (playerCards.length === 2) {
             hasBlackjack = true;
         }
-        pass();
+        setTimeout(() => pass(), 500);
     } else {
-        message = "Проиргыш!"
+        // message = "Проиргыш"
         isAlive = false;
-        highlightPlayerResult(false);
-        record = player.chips + " : " + message + " Счет " + playerSumma + ":" + croupierSumma;
-        console.log(record);
-        addLog(record);
+        pass();
     }
     messageEl.textContent = message;
-    playerEl.textContent = "Ваши карты: ";
-    for (let card of playerCards) {
-        playerEl.textContent += " - " + card.value;
-    }
-    croupierEl.textContent = "Карты крупье: ";
-    for (let card of croupierCards) {
-        croupierEl.textContent += " - " + card.value;
-    }
-    croupierSumEl.textContent = croupierSumma;
-    playerSumEl.textContent = playerSumma;
-    disabledChecked();
+    updatePlayerCardInfo()
+    updateCroupierCardInfo();
 }
 
 function newCard() {
@@ -427,10 +411,10 @@ function addCard(el, arr) {
 }
 
 function addCardImage(el, url) {
-    let boxImage = new Image();
-    boxImage.src = url;
-    boxImage.className = 'image-card';
-    el.appendChild(boxImage);
+    let cardImage = new Image();
+    cardImage.src = url;
+    cardImage.className = 'image-card';
+    el.appendChild(cardImage);
     switch (el.children.length) {
         case 3:
             for (let node of el.childNodes) {
@@ -439,32 +423,32 @@ function addCardImage(el, url) {
             break;
         case 4:
             for (let node of el.childNodes) {
-                // node.style.marginRight = '-55px';
                 node.setAttribute('style', 'margin: 0 -28px');
             }
             break;
         case 5:
             for (let node of el.childNodes) {
-                // node.style.marginRight = '-70px';
-                node.setAttribute('style', 'margin: -32px');
+                node.setAttribute('style', 'margin: 0 -32px');
             }
             break;
         case 6:
             for (let node of el.childNodes) {
-                // node.style.marginRight = '-75px';
-                node.setAttribute('style', 'margin: -35px');
+                node.setAttribute('style', 'margin: 0 -35px');
             }
             break;
         case 7:
             for (let node of el.childNodes) {
-                // node.style.marginRight = '-80px';
-                node.setAttribute('style', 'margin: -37px');
+                node.setAttribute('style', 'margin: 0 -37px');
             }
             break;
         case 8:
             for (let node of el.childNodes) {
-                // node.style.marginRight = '-85px';
-                node.setAttribute('style', 'margin: -39px');
+                node.setAttribute('style', 'margin: 0 -39px');
+            }
+            break;
+        case 9:
+            for (let node of el.childNodes) {
+                node.setAttribute('style', 'margin: 0 -40px');
             }
             break;
         default:
@@ -482,7 +466,7 @@ function TakeCardFromDeck() {
     if (countCards === cards.length - 5) {
         shuffle(cards);
         countCards = 0;
-        record = "Смена колоды карт!";
+        record = "Смена колоды карт";
         addLog(record);
         console.log(record);
     }
@@ -493,36 +477,24 @@ function pass() {
     if (!isAlive) {
         return;
     }
-    croupierCardsEl.removeChild(croupierCardsEl.lastChild);
-    while (croupierSumma < playerSumma) {
-        if ((hasBlackjack && croupierSumma < 10 && croupierCards.length === 1) ||
-            (hasBlackjack && croupierCards.length === 2)) {
-            break;
-        }
-        addCard(croupierCardsEl, croupierCards);
-        croupierSumma = croupierCards.reduce((sum, current) => sum + current.value, 0);
+    if (playerSumma <= 21 && croupierSumma < 21) {
+        addCroupierCards();
     }
-    croupierEl.textContent = "Карты крупье: ";
-    for (let card of croupierCards) {
-        croupierEl.textContent += " - " + card.value;
-    }
-    croupierSumEl.textContent = croupierSumma;
+
+    updateCroupierCardInfo();
     if (croupierSumma > playerSumma && croupierSumma < 22 || playerSumma >= 22) {
-        message = "Проиргыш!";
-        messageEl.textContent = message;
+        message = "Проиргыш";
         highlightPlayerResult(false);
-        record = player.chips + " : " + message + " Счет - " + playerSumma + ":" + croupierSumma;
     } else if (playerSumma === croupierSumma && croupierSumma < 21) {
-        message = "Ничья!";
-        messageEl.textContent = message;
+        message = "Ничья";
         highlightPlayerResult();
     } else if (playerSumma === 21) {
         if ((playerSumma === croupierSumma && hasBlackjack && croupierCards.length === 2) ||
             (playerSumma === croupierSumma && !hasBlackjack && croupierCards.length > 2)) {
-            message = "Ничья!";
+            message = "Ничья";
             highlightPlayerResult();
         } else if (playerSumma === croupierSumma && !hasBlackjack && croupierCards.length == 2) {
-            message = "Проиргыш!";
+            message = "Проиргыш";
             highlightPlayerResult(false);
         } else if ((playerSumma != croupierSumma && hasBlackjack) ||
             (playerSumma === croupierSumma && hasBlackjack && croupierCards.length > 2)) {
@@ -534,13 +506,45 @@ function pass() {
             highlightPlayerResult(true);
         }
     } else {
-        message = "Выигрыш!";
-        messageEl.textContent = message;
+        message = "Выигрыш";
         highlightPlayerResult(true);
     }
     isAlive = false;
+    messageEl.textContent = message;
     disabledChecked();
     pay();
+}
+
+function addCroupierCards() {
+    if (hasBlackjack && croupierSumma < 10) {} else {
+        croupierCardsEl.removeChild(croupierCardsEl.lastChild);
+    }
+    while ((playerSumma - croupierSumma > 0 && croupierSumma < 20) ||
+        (playerSumma === croupierSumma && croupierSumma < 17)) {
+        if ((hasBlackjack && croupierSumma < 10 && croupierCards.length === 1) ||
+            (hasBlackjack && croupierCards.length === 2)) {
+            break;
+        }
+        addCard(croupierCardsEl, croupierCards);
+        croupierSumma = croupierCards.reduce((sum, current) => sum + current.value, 0);
+        audio3.play();
+    }
+}
+
+function updateCroupierCardInfo() {
+    croupierEl.textContent = "Карты крупье: ";
+    for (let card of croupierCards) {
+        croupierEl.textContent += " - " + card.value;
+    }
+    croupierSumEl.textContent = croupierSumma;
+}
+
+function updatePlayerCardInfo() {
+    playerEl.textContent = "Ваши карты: ";
+    for (let card of playerCards) {
+        playerEl.textContent += " - " + card.value;
+    }
+    playerSumEl.textContent = playerSumma;
 }
 
 function pay() {
@@ -551,18 +555,14 @@ function pay() {
         return;
     }
     if (croupierSumma === 0) {
-        // player.chips = player.chips - gameBet;
         record = "Pаунд. Cтавка - " + gameBet;
     } else {
         if (croupierSumma > playerSumma && croupierSumma < 22 || playerSumma >= 22) {
             player.chips = player.chips - gameBet;
         } else if (playerSumma === croupierSumma && croupierSumma < 21) {
-            // player.chips = player.chips + gameBet;
+            // player.chips = player.chips;
         } else if (playerSumma === 21) {
-            if ((playerSumma === croupierSumma && hasBlackjack && croupierCards.length === 2) ||
-                (playerSumma === croupierSumma && !hasBlackjack && croupierCards.length > 2)) {
-                // player.chips = player.chips + gameBet;
-            } else if (playerSumma === croupierSumma && !hasBlackjack && croupierCards.length == 2) {
+            if (playerSumma === croupierSumma && !hasBlackjack && croupierCards.length == 2) {
                 player.chips = player.chips - gameBet;
             } else if ((playerSumma != croupierSumma && hasBlackjack) ||
                 (playerSumma === croupierSumma && hasBlackjack && croupierCards.length > 2)) {
@@ -576,9 +576,9 @@ function pay() {
         }
         record = player.chips + " : " + message + " Счет - " + playerSumma + ":" + croupierSumma;
     }
+    chipsEl.textContent = player.name + " : $" + player.chips;
     console.log(record);
     addLog(record);
-    chipsEl.textContent = player.name + " : $" + player.chips;
 }
 
 function highlightPlayerResult(result) {
@@ -588,12 +588,12 @@ function highlightPlayerResult(result) {
         messageEl.style.background = '#d45100';
     } else if (result) {
         croupierSumEl.style.background = '#b50e0e';
-        messageEl.style.background = 'green';
-        playerSumEl.style.background = 'green';
+        messageEl.style.background = '#004F04';
+        playerSumEl.style.background = '#004F04';
     } else {
         playerSumEl.style.background = '#b50e0e';
         messageEl.style.background = '#b50e0e';
-        croupierSumEl.style.background = 'green';
+        croupierSumEl.style.background = '#004F04';
     }
 }
 
@@ -609,32 +609,37 @@ function rebootGame() {
     }
     setSettingDefault();
     player.chips += REPLENISHMENT_AMOUNT;
+    chipsEl.textContent = player.name + " : $" + player.chips;
     record = player.chips + " : Пополнение фишек. Сумма - " + REPLENISHMENT_AMOUNT;
     console.log(record);
     addLog(record);
-    chipsEl.textContent = player.name + " : $" + player.chips;
 }
 
 function setSettingDefault() {
+    audio5.play();
     message = "Хотите сыграть раунд?"
     messageEl.textContent = message;
+    isAlive = false;
+    setInitialGameDataToDefault();
+    updateCroupierCardInfo();
+    updatePlayerCardInfo();
+    flipCards();
+}
+
+function setInitialGameDataToDefault() {
+    hasBlackjack = false;
     croupierSumma = 0;
     playerSumma = 0;
-    croupierEl.textContent = "Карты крупье:";
-    croupierSumEl.textContent = croupierSumma;
-    playerEl.textContent = "Ваши карты:";
-    playerSumEl.textContent = playerSumma;
-    hasBlackjack = false;
-    isAlive = false;
+    playerCards = [];
+    croupierCards = [];
     while (playerCardsEl.firstChild) {
         playerCardsEl.removeChild(playerCardsEl.firstChild);
     }
     while (croupierCardsEl.firstChild) {
         croupierCardsEl.removeChild(croupierCardsEl.firstChild);
     }
-    setStyleDefaultGame();
-    flipCards();
     disabledChecked();
+    setStyleDefaultGame();
 }
 
 function setStyleDefaultGame() {
@@ -665,7 +670,6 @@ function openLog() {
 
 function closeLog() {
     logEl.setAttribute('style', 'margin-left: -300px');
-    console.log(logEl);
 }
 
 function deleteLog() {
@@ -677,16 +681,33 @@ function deleteLog() {
 function disabledChecked() {
     const radioBtn = document.querySelectorAll("div.radio-btn-panel > input");
     if (isAlive) {
-        for (ratio of radioBtn) {
+        for (let ratio of radioBtn) {
             ratio.disabled = 'disabled';
-            let btn = document.getElementById("btn-start -el");
-            btn.textContent = "СДАТЬСЯ";
         }
+        btnPlay.textContent = "СДАТЬСЯ";
     } else {
-        for (ratio of radioBtn) {
+        for (let ratio of radioBtn) {
             ratio.disabled = '';
-            let btn = document.getElementById("btn-start -el");
-            btn.textContent = "ИГРАТЬ";
         }
+        btnPlay.textContent = "ИГРАТЬ";
     }
 }
+
+function setFocus(event) {
+    switch (event.keyCode) {
+        case 87:
+            btnPlay.focus();
+            break;
+        case 83:
+            btnNew.focus();
+            break;
+        case 65:
+            btnPlay.focus();
+            break;
+        case 68:
+            btnPass.focus();
+            break;
+    }
+}
+
+addEventListener("keydown", setFocus);

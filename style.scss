@@ -1,8 +1,8 @@
 body {
     font-size: 20;
-    // background-image: url("/img/black.jpg");
+    // background-image: url("./img/bg.png");
     // background-size: cover;
-    background: linear-gradient(90deg, #15570f, #0a7926, #15570f);
+    // background: linear-gradient(90deg, #15570f, #0a7926, #15570f);
     color: wheat;
     font-family: "Roboto", "Lucida Sans", "Lucida Sans Regular", "Lucida Grande", "Lucida Sans Unicode", "Geneva",
         "Verdana", sans-serif;
@@ -14,34 +14,48 @@ body {
     border-radius: 10px;
     margin: 10px auto;
     padding: 5px;
-    @media (max-height: 770px) and (min-width: 470px) {
-        .title {
-            display: none;
-        }
-        display: flex;
-        flex-flow: row;
+    @media (max-height: 770px) and (min-width: 870px) {
+        margin-top: 50px;
+        display: grid;
         justify-content: center;
-        .croupier,
+        grid-template-columns: 1fr 1fr;
+        grid-template-rows: 60px 1fr;
+        grid-template-areas: "title title" "croupier player";
+        .title {
+            grid-area: title;
+        }
+        .croupier {
+            grid-area: croupier;
+            min-width: 330px;
+        }
         .player {
+            grid-area: player;
             min-width: 330px;
         }
     }
     @media (max-width: 460px) {
+        .croupier {
+            height: 25px;
+        }
         #message-el {
             font-size: 18px;
         }
         .title {
-            font-size: 28px;
-        }
-    }
-    @media (max-width: 335px) {
-        #croupier-el {
-            margin: 5px;
+            font-size: 20px;
         }
         .croupier-cards,
         .croupier-sum {
             display: none;
         }
+        #croupier-el,
+        #player-el {
+            margin: 5px 0;
+        }
+        .player-sum {
+            top: 60px;
+        }
+    }
+    @media (max-width: 360px) {
         .title {
             display: none;
         }
@@ -67,25 +81,21 @@ body {
 .croupier,
 .player {
     border: 1px solid wheat;
-    margin: 10px;
+    margin: 10px 5px;
     padding: 10px;
     border-radius: 10px;
 }
 
 .croupier {
-    background: rgb(5, 83, 21);
+    background: #002a04;
 }
 
 .player {
-    background: rgb(109, 16, 16);
+    background: rgb(71, 6, 6);
 }
 
 .croupier-cards,
 .player-cards {
-    display: flex;
-    flex-flow: row nowrap;
-    justify-content: center;
-    align-items: center;
     height: 146px;
 }
 
@@ -97,12 +107,12 @@ h1 {
     margin: 0 0 10px 0;
 }
 #message-el {
-    font-size: 24px;
+    font-size: 22px;
     color: wheat;
     margin: 10px 15px 10px 15px;
-    padding: 6px 0;
+    padding: 5px 0;
     border: 1px solid wheat;
-    border-radius: 8px;
+    border-radius: 5px;
 }
 
 .player-sum,
@@ -219,7 +229,7 @@ input:checked {
     height: 100%;
     left: 0;
     top: 0;
-    background: rgb(218, 218, 218);
+    background: rgb(214, 214, 214);
     box-shadow: 0 0 10px rgba(0, 0, 2, 0.5);
     z-index: 3;
     transition: 0.5s;
@@ -227,7 +237,7 @@ input:checked {
 
 .log__header {
     margin-top: 0px;
-    background: rgb(0, 85, 14);
+    background: #002a04;
     height: 45px;
 }
 
