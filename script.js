@@ -286,13 +286,13 @@ var croupierCards = [],
     rate = 1,
     gameBet = CHIP_VALUE * rate,
     record = player.chips + " : Новая игра",
-    audio = new Audio('04036.mp3'),
-    audio2 = new Audio('01069.mp3'),
-    audio3 = new Audio('011.mp3'),
-    audio4 = new Audio('012.mp3'),
-    audio5 = new Audio('013.mp3')
+    audio = new Audio('./sound/04036.mp3'),
+    audio2 = new Audio('./sound/01069.mp3'),
+    audio3 = new Audio('./sound/011.mp3'),
+    audio4 = new Audio('./sound/012.mp3'),
+    audio5 = new Audio('./sound/013.mp3'),
 
-message = "Хотите сыграть раунд?",
+    message = "Хотите сыграть раунд?",
     messageEl = document.getElementById("message-el"),
     logEl = document.getElementById("log-el"),
     logBodyEl = document.getElementById("log-body-el"),
@@ -302,6 +302,11 @@ message = "Хотите сыграть раунд?",
     btnPass = document.getElementById("btn-cancel-el"),
     bodyEl = document.getElementById("body-el");
 
+btnPlay.addEventListener("click", startGame);
+btnNew.addEventListener("click", newCard);
+btnPass.addEventListener("click", pass);
+chipsEl.addEventListener("click", rebootGame);
+bodyEl.addEventListener("keydown", setFocus);
 
 bodyEl.setAttribute('style', 'background-image: url(./img/bg.jpg)');
 messageEl.textContent = message;
@@ -407,49 +412,77 @@ function addCard(el, arr) {
     arr.push(TakeCardFromDeck());
     const card = arr[arr.length - 1];
     const imgUrl = createUrlToImage(card);
-    addCardImage(el, imgUrl);
+    addCardImage(el, imgUrl, arr);
 }
 
-function addCardImage(el, url) {
-    let cardImage = new Image();
-    cardImage.src = url;
-    cardImage.className = 'image-card';
-    el.appendChild(cardImage);
-    switch (el.children.length) {
+function addCardImage(el, url, arr) {
+    let elem = `<img src="${url}" class="image-card" alt=""></img>`
+    el.innerHTML += elem;
+    if (!arr) return;
+    let elm = "";
+    switch (arr.length) {
         case 3:
-            for (let node of el.childNodes) {
-                node.setAttribute('style', 'margin: 0 -22px');
+            for (item of arr) {
+                const imgUrl = createUrlToImage(item);
+                elm += `<img src="${imgUrl}" class="image-card" alt=""
+                            style="margin: 0 -22px">
+                       </img>`
             }
+            el.innerHTML = elm;
             break;
         case 4:
-            for (let node of el.childNodes) {
-                node.setAttribute('style', 'margin: 0 -28px');
+            for (item of arr) {
+                const imgUrl = createUrlToImage(item);
+                elm += `<img src="${imgUrl}" class="image-card" alt=""
+                            style="margin: 0 -28px">
+                       </img>`
             }
+            el.innerHTML = elm;
             break;
         case 5:
-            for (let node of el.childNodes) {
-                node.setAttribute('style', 'margin: 0 -32px');
+            for (item of arr) {
+                const imgUrl = createUrlToImage(item);
+                elm += `<img src="${imgUrl}" class="image-card" alt=""
+                            style="margin: 0 -32px">
+                       </img>`
             }
+            el.innerHTML = elm;
             break;
         case 6:
-            for (let node of el.childNodes) {
-                node.setAttribute('style', 'margin: 0 -35px');
+            for (item of arr) {
+                const imgUrl = createUrlToImage(item);
+                elm += `<img src="${imgUrl}" class="image-card" alt=""
+                            style="margin: 0 -35px">
+                       </img>`
             }
+            el.innerHTML = elm;
             break;
         case 7:
-            for (let node of el.childNodes) {
-                node.setAttribute('style', 'margin: 0 -37px');
+            for (item of arr) {
+                const imgUrl = createUrlToImage(item);
+                elm += `<img src="${imgUrl}" class="image-card" alt=""
+                                style="margin: 0 -37px">
+                           </img>`
             }
+            el.innerHTML = elm;
             break;
         case 8:
-            for (let node of el.childNodes) {
-                node.setAttribute('style', 'margin: 0 -39px');
+            for (item of arr) {
+                const imgUrl = createUrlToImage(item);
+                elm += `<img src="${imgUrl}" class="image-card" alt=""
+                                style="margin: 0 -39px">
+                           </img>`
             }
+            el.innerHTML = elm;
             break;
         case 9:
-            for (let node of el.childNodes) {
-                node.setAttribute('style', 'margin: 0 -40px');
+            for (item of arr) {
+                const imgUrl = createUrlToImage(item);
+                elm += `<img src="${imgUrl}" class="image-card" alt=""
+                                style="margin: 0 -40px">
+                           </img>`
             }
+            el.innerHTML = elm;
             break;
         default:
     }
@@ -480,7 +513,6 @@ function pass() {
     if (playerSumma <= 21 && croupierSumma < 21) {
         addCroupierCards();
     }
-
     updateCroupierCardInfo();
     if (croupierSumma > playerSumma && croupierSumma < 22 || playerSumma >= 22) {
         message = "Проиргыш";
@@ -500,6 +532,7 @@ function pass() {
             (playerSumma === croupierSumma && hasBlackjack && croupierCards.length > 2)) {
             message = "BlackJack!";
             highlightPlayerResult(true);
+            playVoice();
         } else if ((playerSumma != croupierSumma && !hasBlackjack) ||
             (playerSumma === croupierSumma && hasBlackjack && croupierCards.length > 2)) {
             message = "Двадцать одно!"
@@ -516,7 +549,7 @@ function pass() {
 }
 
 function addCroupierCards() {
-    if (hasBlackjack && croupierSumma < 10) {} else {
+    if (hasBlackjack && croupierSumma < 10 || playerSumma < croupierSumma) {} else {
         croupierCardsEl.removeChild(croupierCardsEl.lastChild);
     }
     while ((playerSumma - croupierSumma > 0 && croupierSumma < 20) ||
@@ -657,6 +690,10 @@ function shuffle(array) {
         let j = Math.floor(Math.random() * (i + 1));
         [array[i], array[j]] = [array[j], array[i]];
     }
+    for (let i = array.length - 1; i > 0; i--) {
+        let j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+    }
 }
 
 function setRate(src) {
@@ -710,4 +747,9 @@ function setFocus(event) {
     }
 }
 
-addEventListener("keydown", setFocus);
+function playVoice() {
+    const sounds = ["./sound/voice1.mp3", "./sound/voice2.mp3", "./sound/voice3.mp3"];
+    const rndVoice = Math.floor(Math.random() * sounds.length);
+    const audio = new Audio(sounds[rndVoice]);
+    audio.play();
+}
