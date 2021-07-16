@@ -1,18 +1,18 @@
 body {
-  font-size: 20;
+  font-size: 18px;
   color: wheat;
   font-family: "Roboto", "Lucida Sans", "Lucida Sans Regular", "Lucida Grande", "Lucida Sans Unicode", "Geneva", "Verdana", sans-serif;
   text-align: center;
 }
 
 .table-game {
-  max-width: 360px;
+  max-width: 400px;
   border-radius: 10px;
   margin: 10px auto;
   padding: 5px;
 }
 
-@media (max-height: 770px) and (min-width: 870px) {
+@media (min-width: 640px) {
   .table-game {
     margin-top: 50px;
     display: -ms-grid;
@@ -44,32 +44,161 @@ body {
     grid-area: player;
     min-width: 330px;
   }
+  .table-game .croupier-img {
+    margin-top: -10px;
+    display: block;
+  }
+  .table-game .btn-panel {
+    margin-top: 30px;
+  }
+  .table-game .croupier-sum {
+    top: 175px;
+  }
 }
 
-@media (max-width: 460px) {
-  .table-game .croupier {
-    height: 25px;
-  }
-  .table-game #message-el {
-    font-size: 18px;
+@media (max-height: 450px) and (min-width: 640px) {
+  .table-game {
+    margin-top: 0;
+    padding-top: 0;
+    -ms-grid-rows: 30px 1fr;
+        grid-template-rows: 30px 1fr;
   }
   .table-game .title {
-    font-size: 20px;
+    display: none;
+  }
+  .table-game .croupier,
+  .table-game .player {
+    padding-top: 0;
+    margin-top: 5px;
+    min-width: 270px;
+    height: 280px;
+  }
+  .table-game .croupier {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-flow: column;
+            flex-flow: column;
+    -webkit-box-pack: end;
+        -ms-flex-pack: end;
+            justify-content: end;
   }
   .table-game .croupier-cards,
+  .table-game .player-cards {
+    height: 100px;
+  }
+  .table-game .croupier-cards img,
+  .table-game .player-cards img {
+    height: 100px;
+  }
+  .table-game .croupier-sum,
+  .table-game .player-sum {
+    font-size: 22px;
+    height: 28px;
+    width: 28px;
+    left: 41%;
+  }
+  .table-game .player-sum {
+    top: 42px;
+  }
   .table-game .croupier-sum {
-    display: none;
+    top: 200px;
   }
   .table-game #croupier-el,
   .table-game #player-el {
     margin: 5px 0;
+    font-size: 14px;
   }
-  .table-game .player-sum {
-    top: 60px;
+  .table-game .croupier-img {
+    width: 200px;
+    margin: 10px auto 0;
+  }
+  .table-game #message-el {
+    font-size: 16px;
+    margin: 10px 5px;
+  }
+  .table-game .radio-btn-panel p {
+    display: none;
+  }
+  .table-game .btn-panel {
+    margin-top: 5px;
+  }
+  .table-game button {
+    font-size: 12px;
+    padding: 7px;
+  }
+  .table-game #chips-el {
+    font-size: 12px;
+    padding: 7px;
+  }
+  .table-game .radio-btn-panel {
+    font-size: 14px;
+  }
+  .table-game .image-card {
+    height: 120px;
   }
 }
 
-@media (max-width: 360px) {
+@media (max-width: 460px) {
+  .table-game {
+    margin-top: 0;
+    padding-top: 0;
+  }
+  .table-game .croupier,
+  .table-game .player {
+    padding-top: 0;
+    margin-top: 5px;
+  }
+  .table-game .radio-btn-panel p {
+    display: none;
+  }
+  .table-game .title {
+    font-size: 20px;
+    margin-bottom: 5px;
+  }
+  .table-game #message-el {
+    font-size: 16px;
+    margin: 10px 15px;
+  }
+  .table-game .croupier-cards,
+  .table-game .player-cards {
+    height: 120px;
+  }
+  .table-game .croupier-sum,
+  .table-game .player-sum {
+    font-size: 22px;
+    height: 28px;
+    width: 28px;
+    top: 53px;
+    left: 42%;
+  }
+  .table-game #croupier-el,
+  .table-game #player-el {
+    margin: 5px 0;
+    font-size: 14px;
+  }
+  .table-game .image-card {
+    height: 120px;
+  }
+  .table-game .radio-btn-panel {
+    font-size: 14px;
+  }
+  .table-game button {
+    font-size: 12px;
+    padding: 7px;
+  }
+  .table-game #chips-el {
+    font-size: 12px;
+    padding: 7px;
+  }
+  .table-game .radio-btn-panel {
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 330px) {
   .table-game .title {
     display: none;
   }
@@ -86,6 +215,7 @@ body {
   left: 15px;
   top: 10px;
   cursor: pointer;
+  z-index: 3;
 }
 
 .title {
@@ -98,6 +228,8 @@ body {
   margin: 10px 5px;
   padding: 10px;
   border-radius: 10px;
+  -webkit-transition: background-color 0.5s;
+  transition: background-color 0.5s;
 }
 
 .croupier {
@@ -124,10 +256,12 @@ h1 {
 #message-el {
   font-size: 22px;
   color: wheat;
-  margin: 10px 15px 10px 15px;
+  margin: 10px 25px 10px 25px;
   padding: 5px 0;
   border: 1px solid wheat;
   border-radius: 5px;
+  -webkit-transition: background-color 0.5s;
+  transition: background-color 0.5s;
 }
 
 .player-sum,
@@ -141,17 +275,15 @@ h1 {
   border-radius: 8px;
   background: black;
   position: absolute;
+  top: 70px;
   left: 40%;
   z-index: 2;
   height: 45px;
   width: 45px;
   -webkit-box-shadow: 0 0 20px rgba(0, 0, 2, 0.8);
           box-shadow: 0 0 20px rgba(0, 0, 2, 0.8);
-}
-
-.player-sum,
-.croupier-sum {
-  top: 70px;
+  -webkit-transition: background-color 0.5s;
+  transition: background-color 0.5s;
 }
 
 .btn-panel {
@@ -197,7 +329,7 @@ button:active {
   margin: 5px auto;
   border: 1px solid wheat;
   border-radius: 5px;
-  max-width: 110px;
+  max-width: 112px;
   cursor: pointer;
   font-size: 14px;
 }
@@ -227,16 +359,16 @@ input:checked {
 }
 
 .image-card {
-  -webkit-animation-duration: 0.5s;
-          animation-duration: 0.5s;
+  -webkit-animation-duration: 0.3s;
+          animation-duration: 0.3s;
   -webkit-animation-name: imgStart;
           animation-name: imgStart;
 }
 
 @-webkit-keyframes imgStart {
   from {
-    -webkit-transform: scale(105%);
-            transform: scale(105%);
+    -webkit-transform: scale(110%);
+            transform: scale(110%);
   }
   to {
     -webkit-transform: scale(100%);
@@ -246,8 +378,8 @@ input:checked {
 
 @keyframes imgStart {
   from {
-    -webkit-transform: scale(105%);
-            transform: scale(105%);
+    -webkit-transform: scale(110%);
+            transform: scale(110%);
   }
   to {
     -webkit-transform: scale(100%);
@@ -272,7 +404,7 @@ input:checked {
   background: #d6d6d6;
   -webkit-box-shadow: 0 0 10px rgba(0, 0, 2, 0.5);
           box-shadow: 0 0 10px rgba(0, 0, 2, 0.5);
-  z-index: 3;
+  z-index: 5;
   -webkit-transition: 0.5s;
   transition: 0.5s;
 }
@@ -295,7 +427,7 @@ input:checked {
   right: 15px;
   font-size: 30px;
   cursor: pointer;
-  z-index: 3;
+  z-index: 5;
 }
 
 .log__header .log__btn-delete {
@@ -303,7 +435,7 @@ input:checked {
   top: 9px;
   left: 15px;
   cursor: pointer;
-  z-index: 3;
+  z-index: 5;
 }
 
 .log .log__body {
@@ -337,4 +469,87 @@ input:checked {
   to {
     margin-left: 20px;
   }
+}
+
+.croupier-img {
+  display: none;
+}
+
+.croupier-img img {
+  width: 100%;
+}
+
+.modal {
+  display: none;
+  position: fixed;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 3;
+  overflow: auto;
+  padding-top: 80px;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.modal-content {
+  color: black;
+  position: relative;
+  background-color: #ffffff;
+  -webkit-animation-name: modal;
+          animation-name: modal;
+  -webkit-animation-duration: 0.5s;
+          animation-duration: 0.5s;
+  margin: auto;
+  padding: 0;
+  border: 2px solid #626063;
+  max-width: 380px;
+}
+
+.modal-body {
+  padding: 0 10px;
+  font-size: 14px;
+  margin: 20px 0;
+}
+
+.modal-footer {
+  height: 60px;
+  background: #3b3b3b;
+  padding: 5px 0;
+}
+
+@-webkit-keyframes modal {
+  from {
+    top: -320px;
+    opacity: 0;
+  }
+  to {
+    top: 0;
+    opacity: 1;
+  }
+}
+
+@keyframes modal {
+  from {
+    top: -320px;
+    opacity: 0;
+  }
+  to {
+    top: 0;
+    opacity: 1;
+  }
+}
+
+.close {
+  color: #cc0000;
+  font-size: 40px;
+  font-weight: bold;
+  position: absolute;
+  top: 0;
+  right: 10px;
+}
+
+.close:hover {
+  text-decoration: none;
+  cursor: pointer;
 }
