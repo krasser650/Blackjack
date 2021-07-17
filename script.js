@@ -313,7 +313,7 @@ bodyEl.addEventListener("keydown", setFocus);
 bodyEl.setAttribute('style', 'background-image: url(./img/bg.jpg)');
 messageEl.textContent = message;
 chipsEl.textContent = player.name + " : $" + player.chips;
-// shuffle(cards);
+shuffle(cards);
 flipCards();
 console.log(record);
 addLog(record);
@@ -337,28 +337,7 @@ function flipCards() {
 function setStartUpSettings() {
     if (isAlive) {
         if (playerCards.length === 2) {
-            audio.play();
-            let modal = document.getElementById("myModal");
-            let span = document.getElementsByClassName("close")[0];
-            let btnOk = document.getElementById("btn-ok");
-            let modalMessage = document.getElementById("modal-message-el");
-            modalMessage.textContent = "Хотите начать новый раунд? " +
-                "Возвращается только половина ставки, то есть  $" + gameBet / 2 + ". " +
-                "Согласны?";
-            span.onclick = () => {
-                modal.style.display = "none";
-            }
-            btnOk.onclick = () => {
-                player.chips = player.chips - (gameBet / 2);
-                message = "Возврат половины ставки - " + gameBet / 2;
-                record = player.chips + " : " + message;
-                chipsEl.textContent = player.name + " : $" + player.chips;
-                modal.style.display = "none";
-                setSettingDefault();
-                console.log(record);
-                addLog(record);
-            }
-            modal.style.display = "block";
+            createPlayModal();
         }
         return false;
     }
@@ -400,7 +379,6 @@ function renderGame() {
         btnPlay.disabled = true;
         setTimeout(() => pass(), 500);
     } else {
-        // message = "Проиргыш"
         isAlive = false;
         pass();
     }
@@ -522,7 +500,7 @@ function pass() {
         message = "Ничья";
         highlightPlayerResult();
     } else if (playerSumma === 21) {
-        calculateResultIfPlayerSumma21();
+        calculateResultIfPlayerSummaIsTwentyOne();
     } else {
         message = "Выигрыш";
         highlightPlayerResult(true);
@@ -546,9 +524,9 @@ function pay() {
         if (croupierSumma > playerSumma && croupierSumma < 22 || playerSumma >= 22) {
             player.chips = player.chips - gameBet;
         } else if (playerSumma === croupierSumma && croupierSumma < 21) {
-            // player.chips = player.chips;
+            //nothing
         } else if (playerSumma === 21) {
-            calculatePayIfPlayerSumma21();
+            calculatePayIfPlayerSummaIsTwentyOne();
         } else {
             player.chips = player.chips + gameBet;
         }
@@ -559,7 +537,7 @@ function pay() {
     addLog(record);
 }
 
-function calculatePayIfPlayerSumma21() {
+function calculatePayIfPlayerSummaIsTwentyOne() {
     if (playerSumma === croupierSumma && !hasBlackjack && croupierCards.length == 2) {
         player.chips = player.chips - gameBet;
     } else if ((playerSumma != croupierSumma && hasBlackjack) ||
@@ -571,7 +549,7 @@ function calculatePayIfPlayerSumma21() {
     }
 }
 
-function calculateResultIfPlayerSumma21() {
+function calculateResultIfPlayerSummaIsTwentyOne() {
     if ((playerSumma === croupierSumma && hasBlackjack && croupierCards.length === 2) ||
         (playerSumma === croupierSumma && !hasBlackjack && croupierCards.length > 2)) {
         message = "Ничья";
@@ -646,26 +624,7 @@ function highlightPlayerResult(result) {
 function rebootGame() {
     if (isAlive) return;
     if (player.chips > 0) {
-        audio2.play();
-        let modal = document.getElementById("myModal");
-        let span = document.getElementsByClassName("close")[0];
-        let btnOk = document.getElementById("btn-ok");
-        let modalMessage = document.getElementById("modal-message-el");
-        modalMessage.textContent = "Стоимость Ваших фишек составляет $" + player.chips + ". " +
-            "Хотите пополнить еще на $" + REPLENISHMENT_AMOUNT + "?";
-        span.onclick = () => {
-            modal.style.display = "none";
-        }
-        btnOk.onclick = () => {
-            setSettingDefault();
-            player.chips += REPLENISHMENT_AMOUNT;
-            chipsEl.textContent = player.name + " : $" + player.chips;
-            record = player.chips + " : Пополнение фишек. Сумма - " + REPLENISHMENT_AMOUNT;
-            modal.style.display = "none";
-            console.log(record);
-            addLog(record);
-        }
-        modal.style.display = "block";
+        createRebootModal();
     }
 }
 
@@ -774,4 +733,52 @@ function playVoice() {
     const rndVoice = Math.floor(Math.random() * sounds.length);
     const voice = new Audio(sounds[rndVoice]);
     voice.play();
+}
+
+function createPlayModal() {
+    audio.play();
+    let modal = document.getElementById("myModal");
+    let span = document.getElementsByClassName("close")[0];
+    let btnOk = document.getElementById("btn-ok");
+    let modalMessage = document.getElementById("modal-message-el");
+    modalMessage.textContent = "Хотите начать новый раунд? " +
+        "Возвращается только половина ставки, то есть  $" + gameBet / 2 + ". " +
+        "Согласны?";
+    span.onclick = () => {
+        modal.style.display = "none";
+    }
+    btnOk.onclick = () => {
+        player.chips = player.chips - (gameBet / 2);
+        message = "Возврат половины ставки - " + gameBet / 2;
+        record = player.chips + " : " + message;
+        chipsEl.textContent = player.name + " : $" + player.chips;
+        modal.style.display = "none";
+        setSettingDefault();
+        console.log(record);
+        addLog(record);
+    }
+    modal.style.display = "block";
+}
+
+function createRebootModal() {
+    const modal = document.getElementById("myModal");
+    const span = document.getElementsByClassName("close")[0];
+    const btnOk = document.getElementById("btn-ok");
+    const modalMessage = document.getElementById("modal-message-el");
+    modalMessage.textContent = "Стоимость Ваших фишек составляет $" + player.chips + ". " +
+        "Хотите пополнить еще на $" + REPLENISHMENT_AMOUNT + "?";
+    span.onclick = () => {
+        modal.style.display = "none";
+    }
+    btnOk.onclick = () => {
+        setSettingDefault();
+        player.chips += REPLENISHMENT_AMOUNT;
+        chipsEl.textContent = player.name + " : $" + player.chips;
+        record = player.chips + " : Пополнение фишек. Сумма - " + REPLENISHMENT_AMOUNT;
+        modal.style.display = "none";
+        console.log(record);
+        addLog(record);
+    }
+    modal.style.display = "block";
+    audio2.play();
 }
