@@ -1,4 +1,5 @@
-const cardsJson = [{
+const cards = [
+    {
         name: "2",
         suit: "D",
         value: 2
@@ -260,10 +261,8 @@ const cardsJson = [{
     }
 ];
 
-function getCards() {
-    return JSON.parse(cardsJson);
+function getCarts() {
+    return cards;
 }
 
-export {
-    getCards
-};
+export {getCarts};

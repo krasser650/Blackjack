@@ -1,6 +1,6 @@
 body {
     font-size: 18px;
-    // background-image: url("./img/bg.png");
+    //background-image: url("/src/img/bg.jpg");
     // background-size: cover;
     // background: linear-gradient(90deg, #15570f, #0a7926, #15570f);
     color: wheat;
@@ -311,7 +311,6 @@ button {
     margin: 8px auto;
     width: 130px;
     padding: 10px;
-    border: none;
     border: 1px solid wheat;
     background: transparent;
     color: wheat;
@@ -319,10 +318,10 @@ button {
     cursor: pointer;
     border-radius: 5px;
     &:hover {
-        background: rgb(148, 2, 34);
+        background: rgb(106, 0, 27);
     }
     &:active {
-        background: rgb(116, 1, 26);
+        background: rgb(139, 0, 29);
     }
 }
 
@@ -366,11 +365,10 @@ input:checked {
 
 @keyframes imgStart {
     from {
-        transform: scale(110%);
+        transform: scale(1.1);
     }
-
     to {
-        transform: scale(100%);
+        transform: scale(1);
     }
 }
 
@@ -378,19 +376,18 @@ input:checked {
     display: flex;
     flex-flow: column;
     position: absolute;
-    margin-left: -300px;
     width: 300px;
     height: 100%;
-    left: 0;
+    left: -300px;
     top: 0;
     background: rgb(214, 214, 214);
     box-shadow: 0 0 10px rgba(0, 0, 2, 0.5);
     z-index: 5;
-    transition: 0.5s;
+    transition: 0.3s;
 }
 
 .log__header {
-    margin-top: 0px;
+    margin-top: 0;
     background: #002a04;
     height: 45px;
 }
